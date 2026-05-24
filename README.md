@@ -29,3 +29,48 @@ ___
 **4. Build stats layer**
 
 **5. Build the frontend**
+
+---
+## Database Schema
+```mermaid
+erDiagram
+    users{
+        int id
+        str name
+    }
+    artists{
+        int id
+        str name
+    }
+    albums{
+        int id
+        str name
+        int artist_id
+    }
+    songs{
+        int id
+        str name
+        int album_id
+    }
+    genres{
+        int id
+        str name
+    }
+    song_genres{
+        int song_id
+        int genre_id
+    }
+    scrobbles{
+        int user_id
+        int song_id
+        datetime submission_time
+        int duration
+    } 
+    
+    users||--o{scrobbles : "has"
+    artists||--o{albums: "has"
+    albums||--o{songs: "contains"
+    songs||--o{song_genres: "has"
+    genres||--o{song_genres: "has"
+    scrobbles||--||songs : "plays"
+```
