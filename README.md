@@ -19,10 +19,10 @@ ___
 - Data to be collected: users, artists, albums, songs, genres, scrobbles
 
 **2. Choose the stack**
-- Database
-- Backend
-- Hosting
-- Web (Frontend)
+- Database - SQLite
+- Backend - Go
+- Frontend - React
+- Hosting - Docker
 
 **3. Implement Scrobbler**
 
