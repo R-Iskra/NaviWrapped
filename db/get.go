@@ -67,3 +67,19 @@ func GetGenre(name string) (int64, error) {
 
 	return id, nil
 }
+
+func GetUser(name string) (int64, error) {
+	stmt, err := DB.Prepare("SELECT id FROM users WHERE name = ?")
+	if err != nil {
+		return 0, fmt.Errorf("prepare get user %s: %w", name, err)
+	}
+	defer stmt.Close()
+
+	var id int64
+	err = stmt.QueryRow(name).Scan(&id)
+	if err != nil {
+		return 0, fmt.Errorf("get user %s: %w", name, err)
+	}
+
+	return id, nil
+}
