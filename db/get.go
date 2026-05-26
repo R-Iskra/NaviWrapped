@@ -35,3 +35,19 @@ func GetAlbum(name string) (int64, error) {
 
 	return id, nil
 }
+
+func GetSong(name string) (int64, error) {
+	stmt, err := DB.Prepare("SELECT id FROM songs WHERE name = ?")
+	if err != nil {
+		return 0, fmt.Errorf("prepare get song %s: %w", name, err)
+	}
+	defer stmt.Close()
+
+	var id int64
+	err = stmt.QueryRow(name).Scan(&id)
+	if err != nil {
+		return 0, fmt.Errorf("get song %s: %w", name, err)
+	}
+
+	return id, nil
+}
