@@ -12,16 +12,23 @@ import (
 //go:embed schema.sql
 var schema string
 
+var DB *sql.DB
+
 func Init() {
-	db, err := sql.Open("sqlite", "./naviwrapped.db")
+	var err error
+	DB, err = sql.Open("sqlite", "./naviwrapped.db")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	_, err = db.Exec(schema)
+	_, err = DB.Exec(schema)
 	if err != nil {
 		log.Fatal(err)
 	}
+}
 
-	defer db.Close()
+func Close() {
+	if DB != nil {
+		DB.Close()
+	}
 }
