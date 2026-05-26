@@ -83,3 +83,18 @@ func InsertGenre(name string) (int64, error) {
 
 	return id, nil
 }
+
+func InsertSongGenre(songID int64, genreID int64) error {
+	stmt, err := DB.Prepare("INSERT OR IGNORE INTO song_genres (song_id, genre_id) VALUES (?, ?)")
+	if err != nil {
+		return fmt.Errorf("prepare insert song genre: %w", err)
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(songID, genreID)
+	if err != nil {
+		return fmt.Errorf("insert song genre: %w", err)
+	}
+
+	return nil
+}
