@@ -98,3 +98,23 @@ func InsertSongGenre(songID int64, genreID int64) error {
 
 	return nil
 }
+
+func InsertUser(name string) (int64, error) {
+	stmt, err := DB.Prepare("INSERT OR IGNORE INTO users (name) VALUES (?)")
+	if err != nil {
+		return 0, fmt.Errorf("prepare insert user: %w", err)
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(name)
+	if err != nil {
+		return 0, fmt.Errorf("insert user: %w", err)
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("get user id: %w", err)
+	}
+
+	return id, nil
+}
