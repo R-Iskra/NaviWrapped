@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"time"
 )
 
 func InsertArtist(name string) (int64, error) {
@@ -117,4 +118,20 @@ func InsertUser(name string) (int64, error) {
 	}
 
 	return id, nil
+}
+
+func InsertScrobble(userID int64, songID int64, submissionTime time.Time, duration int64) error {
+	stmt, err := DB.Prepare(`INSERT OR IGNORE INTO scrobbles (user_id, song_id, submission_time, duration)
+							 VALUES (?, ?, ?, ?)`)
+	if err != nil {
+		return fmt.Errorf("prepare insert scrobble: %w", err)
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(userID, songID, submissionTime, duration)
+	if err != nil {
+		return fmt.Errorf("insert scrobble: %w", err)
+	}
+
+	return nil
 }
