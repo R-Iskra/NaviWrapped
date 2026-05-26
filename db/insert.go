@@ -43,3 +43,23 @@ func InsertAlbum(name string, artistID int64) (int64, error) {
 
 	return id, nil
 }
+
+func InsertSong(name string, albumID int64) (int64, error) {
+	stmt, err := DB.Prepare("INSERT OR IGNORE INTO songs (name, album_id) VALUES (?, ?)")
+	if err != nil {
+		return 0, fmt.Errorf("prepare insert song: %w", err)
+	}
+	defer stmt.Close()
+
+	result, err := stmt.Exec(name, albumID)
+	if err != nil {
+		return 0, fmt.Errorf("insert song: %w", err)
+	}
+
+	id, err := result.LastInsertId()
+	if err != nil {
+		return 0, fmt.Errorf("get song id: %w", err)
+	}
+
+	return id, nil
+}
