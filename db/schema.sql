@@ -2,12 +2,12 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS artists (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS albums (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     artist_id INTEGER NOT NULL,
 
     FOREIGN KEY (artist_id) REFERENCES artists(id)
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS albums (
 
 CREATE TABLE IF NOT EXISTS songs (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     album_id INTEGER NOT NULL,
 
     FOREIGN KEY (album_id) REFERENCES albums(id)
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS songs (
 
 CREATE TABLE IF NOT EXISTS genres (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS song_genres (
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS song_genres (
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS scrobbles (
@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS scrobbles (
     submission_time DATETIME NOT NULL,
     duration INTEGER NOT NULL,
 
+    UNIQUE (user_id, song_id, submission_time),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (song_id) REFERENCES songs(id)
 );
