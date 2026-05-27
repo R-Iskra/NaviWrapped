@@ -43,3 +43,11 @@ func GetOrInsertGenre(name string) (int64, error) {
 	}
 	return InsertGenre(name)
 }
+
+func GetOrInsertUser(name string) (int64, error) {
+	id, err := GetUser(name)
+	if err == nil {
+		return id, nil
+	}
+	return InsertUser(name)
+}
