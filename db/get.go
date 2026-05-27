@@ -83,3 +83,28 @@ func GetUser(name string) (int64, error) {
 
 	return id, nil
 }
+
+func GetSongGenres(songID int64) ([]int64, error) {
+	stmt, err := DB.Prepare("SELECT genre_id FROM song_genres WHERE song_id = ?")
+	if err != nil {
+		return nil, fmt.Errorf("prepare get song genres %d: %w", songID, err)
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query(songID)
+	if err != nil {
+		return nil, fmt.Errorf("get song genres %d: %w", songID, err)
+	}
+	defer rows.Close()
+
+	var ids []int64
+	for rows.Next() {
+		var id int64
+		if err := rows.Scan(&id); err != nil {
+			return nil, fmt.Errorf("scan genre id %d: %w", songID, err)
+		}
+		ids = append(ids, id)
+	}
+
+	return ids, nil
+}
