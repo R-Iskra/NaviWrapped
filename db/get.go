@@ -108,3 +108,28 @@ func GetSongGenres(songID int64) ([]int64, error) {
 
 	return ids, nil
 }
+
+func GetGenreSongs(genreID int64) ([]int64, error) {
+	stmt, err := DB.Prepare("SELECT song_id FROM song_genres WHERE genre_id = ?")
+	if err != nil {
+		return nil, fmt.Errorf("prepare get genre songs %d: %w", genreID, err)
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query(genreID)
+	if err != nil {
+		return nil, fmt.Errorf("get genre songs %d: %w", genreID, err)
+	}
+	defer rows.Close()
+
+	var ids []int64
+	for rows.Next() {
+		var id int64
+		if err := rows.Scan(&id); err != nil {
+			return nil, fmt.Errorf("scan song id %d: %w", genreID, err)
+		}
+		ids = append(ids, id)
+	}
+
+	return ids, nil
+}
