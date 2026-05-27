@@ -21,3 +21,17 @@ func GetOrInsertAlbum(name string, artistName string) (int64, error) {
 
 	return InsertAlbum(name, artistID)
 }
+
+func GetOrInsertSong(name string, albumName string, artistName string) (int64, error) {
+	id, err := GetSong(name)
+	if err == nil {
+		return id, nil
+	}
+
+	albumID, err := GetOrInsertAlbum(albumName, artistName)
+	if err != nil {
+		return 0, err
+	}
+
+	return InsertSong(name, albumID)
+}
