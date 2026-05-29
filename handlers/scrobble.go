@@ -65,6 +65,11 @@ func SubmitListens(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if payload.ListenType == "playing_now" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
+
 	for _, listen := range payload.Payload {
 		songID, err := db.GetOrInsertSong(
 			listen.TrackMetadata.TrackName,
