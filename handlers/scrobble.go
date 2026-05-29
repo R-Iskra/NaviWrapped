@@ -71,6 +71,13 @@ func SubmitListens(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, listen := range payload.Payload {
+		if listen.ListenedAt == 0 || listen.TrackMetadata.ArtistName == "" ||
+			listen.TrackMetadata.ReleaseName == "" || listen.TrackMetadata.TrackName == "" ||
+			listen.TrackMetadata.AdditionalInfo.DurationMs == 0 {
+			http.Error(w, "missing required fields", http.StatusBadRequest)
+			return
+		}
+
 		songID, err := db.GetOrInsertSong(
 			listen.TrackMetadata.TrackName,
 			listen.TrackMetadata.ReleaseName,
