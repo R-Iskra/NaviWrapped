@@ -14,21 +14,22 @@ ___
 - Comparison to previous year
 
 ---
+## Stack:
+
+- Database: SQLite
+- Backend: Go
+- Frontend: React
+- Hosting: Docker
+
+---
 ## Steps to build:
-**1. Design the database schema**
-- Data to be collected: users, artists, albums, songs, genres, scrobbles
-
-**2. Choose the stack**
-- Database - SQLite
-- Backend - Go
-- Frontend - React
-- Hosting - Docker
-
-**3. Implement Scrobbler**
-
-**4. Build stats layer**
-
-**5. Build the frontend**
+- [x] **1. Design the database schema**
+- [x] **2. Choose the stack**
+- [x] **3. Implement Scrobbler**
+- [ ] **4. Implement Token Authentication**
+- [ ] **5. Build stats layer**
+- [ ] **6. Build the frontend**
+- [ ] **7. Docker Setup**
 
 ---
 ## Database Schema
